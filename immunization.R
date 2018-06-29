@@ -2,7 +2,7 @@
 # 
 # by: Andrew Sikes
 # created: 06/22/2018
-# modified: everyday...
+# modified: 06/29/2018
 # 
 # purpose: 
 #   data clean up, consolidate rows for each ASIIS_PAT_ID in LaurensData.dta. 
