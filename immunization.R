@@ -9,6 +9,12 @@
 # VAX_Count needs to be MMR_VAX_Count, HEPC_VAX_Count, etc. creates some 159
 # different variables, but should reduce the row count dramatically.
 #
+# caution:
+#   this script is very slow and sloppy. it took 1.2 days to process a dta
+# file at approximatly 2.5GB in size. on the bright side:
+#   + the resulting csv is 489MB
+#   + used no more ram than was need to load the initial dataset.
+# 
 
 # import dta with haven lib - global dataset
 library(haven)
