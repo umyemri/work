@@ -13,7 +13,7 @@
 #   this script is very slow and sloppy. it took 1.2 days to process a dta
 # file at approximatly 2.5GB in size. on the bright side:
 #   + the resulting csv is 489MB
-#   + used no more ram than was need to load the initial dataset.
+#   + used no more ram than was needed to load the initial dataset.
 # 
 
 # import dta with haven lib - global dataset
