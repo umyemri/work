@@ -10,7 +10,6 @@ with io.open ("C:\\Users\\andrews\\Local\\paths-U.txt", "a", encoding="utf-8") a
         subindent = '\t' * (level + 1)
         for f in files:
             myfile.write('{}{}'.format(subindent, f) + '\n')
-        print(".", end=" ")
             
     myfile.close()
 
