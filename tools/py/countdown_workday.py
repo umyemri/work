@@ -13,7 +13,7 @@ def nowish():
 def main():
 	daystart 	= float(input('Start of the day (e.g. 8.75 = 8:45 AM): '))
 	
-	shiftlength = 8.5
+	shiftlength 	= 8.5
 	interval 	= round( (shiftlength * 60) * 60 )
 	
 	ds_hr 		= math.floor(daystart)
