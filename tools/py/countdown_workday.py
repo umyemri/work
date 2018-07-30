@@ -52,13 +52,13 @@ def main():
 		cur_hour 	= nowish().tm_hour
 		cur_min 	= nowish().tm_min
 		cur_sec 	= nowish().tm_sec
-		lf_hour 	= abs( et_hr - nowish().tm_hour )
-		lf_min		= abs( et_min - nowish().tm_min )
+		lf_hour 	= abs( et_hr - cur_hour )
+		lf_min		= abs( cur_min - 59 )
 		
 		print()
-		print( 'c: {:02d}:{:02d}:{:02d}, '.format(cur_hour, cur_min, cur_sec), \
-			end='' )
-		print( 'g: {:02d}:{:02d}, '.format(et_hr, et_min), end='' )
+		print( 'c: {:02d}:{:02d}:{:02d},'.format(cur_hour, cur_min, cur_sec), \
+			end=' ' )
+		print( 'g: {:02d}:{:02d},'.format(et_hr, et_min), end=' ' )
 		print( 'l: {:02d}:{:02d}'.format(lf_hour, lf_min) )
 
 		time.sleep(1)
