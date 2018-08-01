@@ -4,24 +4,25 @@
 # census data isolation. there are probably better ways of doing
 # this...
 #
+
 import time, os, math, progressbar
 
 def nowish():
 	return time.localtime()
 
 def main():
-	daystart 	= float(input('Start of the day (e.g. 8.75 = 8:45 AM): '))
+	daystart 	= float( input('Start of the day (e.g. 8.75 = 8:45 AM): ') )
 	
-	shiftlength 	= 8.5
+	shiftlength = 8.5
 	interval 	= round( (shiftlength * 60) * 60 )
 	
-	ds_hr 		= math.floor(daystart)
-	ds_min 		= round(abs(ds_hr - daystart) * 60)
-	sl_hr 		= math.floor(shiftlength)
-	sl_min 		= round(abs(sl_hr - shiftlength) * 60)
+	ds_hr 		= math.floor( daystart )
+	ds_min 		= round( abs(ds_hr - daystart) * 60 )
+	sl_hr 		= math.floor( shiftlength )
+	sl_min 		= round( abs(sl_hr - shiftlength) * 60 )
 	endshift 	= daystart + shiftlength
-	et_hr 		= math.floor(endshift)
-	et_min 		= round(abs(et_hr - endshift) * 60)
+	et_hr 		= math.floor( endshift )
+	et_min 		= round( abs(et_hr - endshift) * 60 )
 	
 	cur_day		= nowish().tm_mday
 	cur_mon		= nowish().tm_mon
@@ -47,13 +48,13 @@ def main():
 	
 	for i in range( abs(start_ep - current_ep), interval ):
 		bar.start()
-		bar.update(i + 1)
+		bar.update( i + 1 )
 		
 		cur_hour 	= nowish().tm_hour
 		cur_min 	= nowish().tm_min
 		cur_sec 	= nowish().tm_sec
 		lf_hour 	= abs( et_hr - cur_hour )
-		lf_min		= abs( cur_min - 59 )
+		lf_min		= abs( cur_min -  59 )
 		
 		print()
 		print( 'c: {:02d}:{:02d}:{:02d},'.format(cur_hour, cur_min, cur_sec), \
@@ -65,6 +66,6 @@ def main():
 		os.system('cls')
 	
 	bar.finish()
-	print("Done!")
+	print("Day is over: go home!")
 
 main()
