@@ -53,8 +53,9 @@ def main():
 		cur_hour 	= nowish().tm_hour
 		cur_min 	= nowish().tm_min
 		cur_sec 	= nowish().tm_sec
-		lf_hour 	= abs( et_hr - cur_hour )
-		lf_min		= abs( cur_min -  59 )
+		left 		= ( abs( i - interval ) / 60 ) / 60
+		lf_hour 	= math.floor( left )
+		lf_min		= round( abs(left - lf_hour) * 60 )
 		
 		print()
 		print( 'c: {:02d}:{:02d}:{:02d},'.format(cur_hour, cur_min, cur_sec), \
