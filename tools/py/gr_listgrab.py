@@ -9,31 +9,57 @@
 # it then outputs a csv
 #
 
-import os, sys, csv
+import os, sys, csv, re
 from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen
+import pandas as pd
 
 def main():
 	url = 'https://www.goodreads.com/list/show/71245.HBO_s_True_Detective'
 	
 	html = urlopen(url)
 	
-	# <a class="authorName" itemprop="url" href="https://www.goodreads.com/author/show/128466.Thomas_Ligotti"><span itemprop="name">Thomas Ligotti</span></a>
-	
 	booksoup = bs(html, "lxml")
 	
-	# for i in booksoup.find("table", {"class":"tableList js-dataTooltip"}).tr.next_siblings:
-		# print(" {}: {} ".format(point, i))
-		# point = point + 1
-		
-	numbers	= booksoup.findAll("td", {"class":"number"})
-	titles	= booksoup.findAll("a", {"class":"bookTitle"})
-	authors = booksoup.findAll("a", {"class":"authorName"})
-	ratings = booksoup.findAll("span", {"class":"minirating"})
-	
-	for i in ratings:
-		print( i.get_text() )
+	raw_ranks	= booksoup.findAll("td", {"class":"number"})
+	raw_titles	= booksoup.findAll("a", {"class":"bookTitle"})
+	raw_authors = booksoup.findAll("a", {"class":"authorName"})
+	raw_ratings = booksoup.findAll("span", {"class":"minirating"})
 
-	# 309 ch: <span class="minirating"><span class="stars staticStars"><span class="staticStar p10" size="12x12"></span><span class="staticStar p10" size="12x12"></span><span class="staticStar p10" size="12x12"></span><span class="staticStar p6" size="12x12"></span><span class="staticStar p0" size="12x12"></span></span> 3.67 avg rating — 3 ratings</span>
+	ranks 		= []
+	titles		= []
+	authors		= []
+	ratings		= []
+	votes		= []
+	
+	temp_raw	= ''
+	temp_votes  = ''
+	re_votes	= ''
+	re_pattern 	= '(\d{1,})(,\d{1,})|\d{1,}'
+	
+	for entry in raw_ranks:
+		ranks.append( entry.get_text() )
+		
+	for entry in raw_titles:
+		titles.append( entry.get_text().strip() )
+
+	for entry in raw_authors:
+		authors.append( entry.get_text() )
+		
+	for entry in raw_ratings:
+		temp_raw 	= entry.get_text()
+		temp_votes	= temp_raw[19:]
+		re_votes 	= re.search(re_pattern, temp_votes)
+		
+		ratings.append( temp_raw[1:5] )
+		votes.append( re_votes.group(0) )
+	
+	gr_list = pd.DataFrame( {'rank': ranks,
+							'titles': titles,
+							'author': authors,
+							'rating': ratings,
+							'votes': votes} )
+							
+	gr_list.to_csv('list.csv', sep=',', index=False, encoding='utf-8')
 
 main()
