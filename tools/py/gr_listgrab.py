@@ -2,11 +2,14 @@
 # author: umyemri
 # date: 20180809
 # aim: point script at url for a goodreads list and harvest the following:
+#      0. rank in list
 #      1. book title
 #      2. author
 #      3. rating
-#      4. url to goodreads' book entry
+#      4. rating votes
 # it then outputs a csv
+#
+# limitation: currently only takes the first 100 selections, need to make a crawler...
 #
 
 from bs4 import BeautifulSoup as bs
