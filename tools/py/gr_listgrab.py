@@ -8,9 +8,6 @@
 #      4. url to goodreads' book entry
 # it then outputs a csv
 #
-# arguement handling stolen from:
-# https://www.tutorialspoint.com/python/python_command_line_arguments.htm
-#
 
 from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen
@@ -85,18 +82,3 @@ def main(argv):
 
 if __name__ == "__main__":
    main( sys.argv[1:] )
-		temp_votes	= temp_raw[19:]
-		re_votes 	= re.search(re_pattern, temp_votes)
-		
-		ratings.append( temp_raw[1:5] )
-		votes.append( re_votes.group(0) )
-	
-	gr_list = pd.DataFrame( {'rank': ranks,
-							'titles': titles,
-							'author': authors,
-							'rating': ratings,
-							'votes': votes} )
-							
-	gr_list.to_csv('list.csv', sep=',', index=False, encoding='utf-8')
-
-main()
