@@ -8,16 +8,17 @@
 #      4. url to goodreads' book entry
 # it then outputs a csv
 #
+# arguement handling stolen from:
+# https://www.tutorialspoint.com/python/python_command_line_arguments.htm
+#
 
-import os, sys, csv, re
 from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen
 import pandas as pd
+import sys, re, getopt
 
-def main():
-	url = 'https://www.goodreads.com/list/show/71245.HBO_s_True_Detective'
-	
-	html = urlopen(url)
+def listgrab( list_url, csv_output ):
+	html = urlopen(list_url)
 	
 	booksoup = bs(html, "lxml")
 	
@@ -48,6 +49,42 @@ def main():
 		
 	for entry in raw_ratings:
 		temp_raw 	= entry.get_text()
+		temp_votes	= temp_raw[19:]
+		re_votes 	= re.search(re_pattern, temp_votes)
+		
+		ratings.append( temp_raw[1:5] )
+		votes.append( re_votes.group(0) )
+	
+	gr_list = pd.DataFrame( { 'rank': ranks,
+							'titles': titles,
+							'author': authors,
+							'rating': ratings,
+							'votes' : votes } )
+							
+	gr_list.to_csv(csv_output, sep=',', index=False, encoding='utf-8')
+
+def main(argv):
+   inputurl = ''
+   outputfile = ''
+   try:
+      opts, args = getopt.getopt(argv,"hi:o:",["ifile=","ofile="])
+   except getopt.GetoptError:
+      print( 'gr_listgrab.py -i <inputurl> -o <outputfile>' )
+      sys.exit(2)
+   for opt, arg in opts:
+      if opt == '-h':
+         print( 'gr_listgrab.py -i <inputurl> -o <outputfile>' )
+         sys.exit()
+      elif opt in ("-i", "--ifile"):
+         inputurl = arg
+      elif opt in ("-o", "--ofile"):
+         outputfile = arg
+   print( 'Input URL is {}'.format(inputurl) )
+   print( 'Output file is {}'.format(outputfile) )
+   listgrab( inputurl, outputfile )
+
+if __name__ == "__main__":
+   main( sys.argv[1:] )
 		temp_votes	= temp_raw[19:]
 		re_votes 	= re.search(re_pattern, temp_votes)
 		
